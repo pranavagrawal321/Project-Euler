@@ -13,4 +13,5 @@
 | 7 | 10 001st Prime | [Link](https://github.com/pranavagrawal321/Project-Euler/blob/master/Problem%207%3A%2010%20001st%20Prime.py) |
 | 8 | Largest Product in a Series | [Link](https://github.com/pranavagrawal321/Project-Euler/blob/master/Problem%208%3A%20Largest%20Product%20in%20a%20Series.py) |
 | 10 | Summation of Primes | [Link](https://github.com/pranavagrawal321/Project-Euler/blob/master/Problem%2010%3A%20Summation%20of%20Primes.py) |
+| 13 | Large Sum | [Link](https://github.com/pranavagrawal321/Project-Euler/blob/master/Problem%2013%3A%20Large%20Sum.py) |
 <!-- PROBLEMS-TABLE:END -->
