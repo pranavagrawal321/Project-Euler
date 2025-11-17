@@ -5,3 +5,11 @@ repos:
     - id: ruff
       args: [ --fix ]
     - id: ruff-format
+
+- repo: local
+  hooks:
+    - id: generate-table-of-contents
+      name: Generate Table of Contents
+      entry: python generate_table_of_contents.py
+      language: python
+      files: \.py$
