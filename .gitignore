@@ -208,3 +208,5 @@ __marimo__/
 
 env_euler/
 .idea/
+*.nbc
+*.nbi

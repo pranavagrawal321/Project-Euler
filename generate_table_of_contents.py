@@ -1,5 +1,6 @@
 import os
 import re
+import subprocess
 from urllib.parse import quote
 
 README = "README.md"
@@ -8,17 +9,26 @@ END = "<!-- PROBLEMS-TABLE:END -->"
 
 
 def generate_table():
-    pattern = re.compile(r"Problem (\d+): (.+)\.py")
+    # Match ONLY valid problem files
+    pattern = re.compile(r"^Problem (\d+): (.+)\.py$")
     rows = []
 
-    for root, _, files in os.walk("."):
-        for f in files:
-            m = pattern.match(f)
-            if m:
-                num, name = m.groups()
-                rel_path = os.path.join(root, f).replace("\\", "/").lstrip("./")
-                url = f"https://github.com/pranavagrawal321/Project-Euler/blob/master/{quote(rel_path)}"
-                rows.append((int(num), name, f"{url}"))
+    # Get only files tracked by Git (respects .gitignore automatically)
+    result = subprocess.run(
+        ["git", "ls-files"], capture_output=True, text=True, check=True
+    )
+    tracked_files = result.stdout.splitlines()
+
+    for rel_path in tracked_files:
+        filename = os.path.basename(rel_path)
+        m = pattern.match(filename)
+        if m:
+            num, name = m.groups()
+            url = (
+                "https://github.com/pranavagrawal321/Project-Euler/blob/master/"
+                f"{quote(rel_path)}"
+            )
+            rows.append((int(num), name, url))
 
     rows.sort(key=lambda t: t[0])
 
@@ -34,7 +44,7 @@ def generate_table():
 
 
 def update_readme():
-    with open(README, "r") as f:
+    with open(README, "r", encoding="utf-8") as f:
         content = f.read()
 
     start_i = content.find(START)
@@ -50,14 +60,14 @@ def update_readme():
     )
 
     if new_content != content:
-        with open(README, "w") as f:
+        with open(README, "w", encoding="utf-8") as f:
             f.write(new_content)
         print("README.md updated.")
-        return 1  # cause pre-commit to fail so user commits updated file
+        return 1
     else:
         print("README.md already up to date.")
         return 0
 
 
 if __name__ == "__main__":
-    exit(update_readme())
+    raise SystemExit(update_readme())
